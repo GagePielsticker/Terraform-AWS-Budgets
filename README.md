@@ -163,7 +163,7 @@ For the full module reference (all inputs, outputs, validation rules), see [`ter
 Also confirm the state bucket name pattern is what you want:
 
 ```hcl
-bucket = "thryv-${local.environment}-infra-tf-state"
+bucket = "${local.environment}-infra-tf-state"
 ```
 
 > 🪣 **The bucket must already exist** in each account before the first `terragrunt init` — Terragrunt won't create it for you with this config.
@@ -354,8 +354,8 @@ Every role needs read/write on the S3 state bucket. With `use_lockfile = true` i
         "s3:DeleteObject"
       ],
       "Resource": [
-        "arn:aws:s3:::thryv-<ENV>-infra-tf-state",
-        "arn:aws:s3:::thryv-<ENV>-infra-tf-state/*"
+        "arn:aws:s3:::<ENV>-infra-tf-state",
+        "arn:aws:s3:::<ENV>-infra-tf-state/*"
       ]
     }
   ]
@@ -424,7 +424,7 @@ The Trivy scan runs on every PR that touches `terraform/**`, independent of the 
 - [ ] Set the real `monthly_budget_usd` in each of [dev](terraform/environments/dev/terragrunt.hcl) / [qa](terraform/environments/qa/terragrunt.hcl) / [prod](terraform/environments/prod/terragrunt.hcl) `terragrunt.hcl` (starter values are `25` / `25` / `50` USD)
 - [ ] Replace `REPLACE_ME_EMAIL@example.com` in each env's `terragrunt.hcl` with the team distribution list for that env
 - [ ] **Enable Cost Explorer** in each AWS account (Billing console → Cost Explorer → Launch). Required for the anomaly-detection half of the module. If skipping, set `enable_cost_anomaly_detection = false` in that env's `inputs`.
-- [ ] Create the S3 state bucket (`thryv-<env>-infra-tf-state`) in each AWS account
+- [ ] Create the S3 state bucket (`<env>-infra-tf-state`) in each AWS account
 - [ ] Create the GitHub OIDC provider + per-env IAM plan/apply roles in each account (see [section 3](#3-️-aws-setup--letting-github-actions-assume-the-roles))
 - [ ] Put role ARNs into `AWS_ROLE_ARNS` in **both** [`terraform-plan.yml`](.github/workflows/terraform-plan.yml) and [`terraform-apply.yml`](.github/workflows/terraform-apply.yml)
 - [ ] Turn on branch protection for `main` with the required checks listed in [section 4](#4--github-setup)
