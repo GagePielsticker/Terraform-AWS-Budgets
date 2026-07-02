@@ -48,6 +48,20 @@ Answers the follow-up question the budget can't: **"which service is misbehaving
 
 ---
 
+## 💵 Estimated monthly cost
+
+**Effectively $0 per environment, always.** This module was designed to sit inside the AWS Free Tier for cost/billing tooling permanently.
+
+| Component | Pricing | This repo's usage |
+|---|---|---|
+| `aws_budgets_budget` | First **2 budgets per account are always free**, then $0.02/day (~$0.60/mo) each. | 1 budget per account → **$0** |
+| Budget email notifications | Free (native AWS Budgets email, no SNS). | — |
+| `aws_ce_anomaly_monitor` + subscription | [Always free](https://aws.amazon.com/aws-cost-management/aws-cost-anomaly-detection/pricing/). | 1 monitor + 1 subscription per account → **$0** |
+
+**No S3, no SNS, no KMS, no Lambda in the path.** The only way to see a charge from this repo is to also deploy additional budgets in the same account past the two-free limit — which is outside the scope of what this module creates.
+
+---
+
 ## 📁 Repository layout
 
 ```text
